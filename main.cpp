@@ -97,6 +97,9 @@ void startGame(int tries, int *tries_num, int output[], int input[], int res[], 
 			cout<<endl;
 			if ((*tries_num) >= tries) {
 				cout<<"I'm sorry, you lost!\n";
+				cout<<"Solution: ";
+				printVector(input, size, false);
+				cout<<endl;
 				*tries_num = 0;
 				break;
 			}
