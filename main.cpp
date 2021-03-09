@@ -6,6 +6,16 @@
 using namespace std;
 
 
+/** check if the element "a" of the attempt is in the solution (any position)
+	
+	parameters:
+		x (int[]): solution
+		a (int): element to check if in the solution
+		size (int): size of the array
+	
+	return:
+		true if a is in the solution, false otherwise
+*/
 bool contain(int x[], int a, int size) {
 	for (int i = 0; i < size; i++)
 			if (x[i] == a)
@@ -13,6 +23,8 @@ bool contain(int x[], int a, int size) {
 	return false;
 }
 
+/** Create a random solution 
+*/
 void createInput(int x[], int size, int max) {
 	int num = 0;
 	for (int i = 0; i < size; i++) {
@@ -21,15 +33,30 @@ void createInput(int x[], int size, int max) {
 	}
 }
 
+/** Check if the attempt is right and tell where it is wrong
+
+	parameters:
+		res (int[]): the response
+		input (int[]): solution
+		output [int[]): the attempt
+		size (int): array size
+	
+	return:
+		true if you win, also otherwise
+		furthermore, it return an array which tells you where you are wrong
+*/
 bool check(int res[], int input[], int output[], int size) {
 	bool winner = true;
 	for (int i = 0; i < size; i++) {
+		// if the element is right and in the correct position
 		if (input[i] == output[i])
 			res[i] = 1;
 		else { 
 			winner = false;
+			// if the element is right but not in the correct position
 			if (contain(input, output[i], size))
 				res[i] = 0;
+			// if the element is wrong
 			else
 				res[i] = -1;
 			}
@@ -37,6 +64,13 @@ bool check(int res[], int input[], int output[], int size) {
 	return winner;
 }
 
+/** Change settings like solution size, or number of allowed attempts
+
+	parameters:
+		element (int*): element to modify, as array size or number of allowed attempts
+		max (int): max allowed value for element
+		min (int): min allowed value for element
+*/
 void changeSettings (int *element, int max, int min) {
 	if (*element > max)
 		*element = max;
@@ -44,6 +78,12 @@ void changeSettings (int *element, int max, int min) {
 		*element = min;
 }
 
+/** Print the array of hints (so, tell you where you are wrong)
+
+	x (int[]): array to print
+	size (int): array size
+	colored (bool): if have to print colored
+*/
 void printVector(int x[], int size, bool colored) {
 	char tmp = ' ';
 	for (int i = 0; i < size; i++)
@@ -64,6 +104,21 @@ void printVector(int x[], int size, bool colored) {
 			cout<<x[i]<<" ";
 }
 
+/** Start the game
+	Gamer try his attempts while he isn't right or he finish the allowed attempts.
+	At every attempt, game prints where the gamer is wrong.
+	At the end, if the gamer didn't win, solution is printed.
+	In any rate, game asks if gamer wanna play again.
+	
+	parameters:
+		tries (int): allowed number of attempts
+		tries_num (int*): how many attempts gamer has used
+		output (int[]): the attempt
+		input (int[]): the solution
+		res (int[]): response
+		size (int): array size
+		max_num (int): the greater num you can find in the solution
+*/
 void startGame(int tries, int *tries_num, int output[], int input[], int res[], int size, int max_num) {
 	do {
 		createInput(input,size,max_num);
